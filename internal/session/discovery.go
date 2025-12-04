@@ -60,7 +60,7 @@ func DiscoverExistingTmuxSessions(existingInstances []*Instance) ([]*Instance, e
 			Tool:        detectToolFromName(title),
 			tmuxSession: sess,
 		}
-		inst.UpdateStatus()
+		_ = inst.UpdateStatus()
 		discovered = append(discovered, inst)
 	}
 

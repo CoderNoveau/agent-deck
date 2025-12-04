@@ -230,8 +230,8 @@ func (s *Session) Start(command string) error {
 
 	// Set default window/pane styles to prevent color issues in some terminals (Warp, etc.)
 	// This ensures no unexpected background colors are applied
-	exec.Command("tmux", "set-option", "-t", s.Name, "window-style", "default").Run()
-	exec.Command("tmux", "set-option", "-t", s.Name, "window-active-style", "default").Run()
+	_ = exec.Command("tmux", "set-option", "-t", s.Name, "window-style", "default").Run()
+	_ = exec.Command("tmux", "set-option", "-t", s.Name, "window-active-style", "default").Run()
 
 	// Enable mouse mode for proper scrolling (per-session, doesn't affect user's other sessions)
 	// This allows:

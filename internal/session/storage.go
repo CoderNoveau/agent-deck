@@ -420,7 +420,7 @@ func (s *Storage) convertToInstances(data *StorageData) ([]*Instance, []*GroupDa
 		// Update status immediately to prevent flickering on startup
 		// Without this, UI renders saved status, then first tick changes it
 		if tmuxSess != nil {
-			inst.UpdateStatus()
+			_ = inst.UpdateStatus()
 		}
 
 		instances[i] = inst

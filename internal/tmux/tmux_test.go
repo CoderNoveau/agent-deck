@@ -1207,7 +1207,7 @@ func TestStatusFlickerOnInvisibleCharsIntegration(t *testing.T) {
 	session := NewSession("flicker-test", t.TempDir())
 	err := session.Start("")
 	assert.NoError(t, err, "Failed to start tmux session")
-	defer session.Kill()
+	defer func() { _ = session.Kill() }()
 
 	// Wait for session to be ready
 	time.Sleep(100 * time.Millisecond)
@@ -1215,8 +1215,8 @@ func TestStatusFlickerOnInvisibleCharsIntegration(t *testing.T) {
 	// Helper to send content to the pane
 	sendToPane := func(content string) {
 		cmd := fmt.Sprintf("clear && printf -- %q", content)
-		session.SendKeys(cmd)
-		session.SendEnter()
+		_ = session.SendKeys(cmd)
+		_ = session.SendEnter()
 		time.Sleep(100 * time.Millisecond)
 	}
 

@@ -27,7 +27,7 @@ func TestNewSessionStatusFlicker(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Start failed: %v", err)
 	}
-	defer inst.Kill()
+	defer func() { _ = inst.Kill() }()
 
 	t.Logf("After Start(): Status = %s", inst.Status)
 

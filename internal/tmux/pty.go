@@ -44,7 +44,7 @@ func (s *Session) Attach(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("failed to set raw mode: %w", err)
 	}
-	defer term.Restore(int(os.Stdin.Fd()), oldState)
+	defer func() { _ = term.Restore(int(os.Stdin.Fd()), oldState) }()
 
 	// Handle window resize signals
 	sigwinch := make(chan os.Signal, 1)
@@ -72,7 +72,7 @@ func (s *Session) Attach(ctx context.Context) error {
 					return
 				}
 				if ws, err := pty.GetsizeFull(os.Stdin); err == nil {
-					pty.Setsize(ptmx, ws)
+					_ = pty.Setsize(ptmx, ws)
 				}
 			}
 		}
@@ -202,7 +202,7 @@ func (s *Session) AttachReadOnly(ctx context.Context) error {
 	if err != nil {
 		return fmt.Errorf("failed to set raw mode: %w", err)
 	}
-	defer term.Restore(int(os.Stdin.Fd()), oldState)
+	defer func() { _ = term.Restore(int(os.Stdin.Fd()), oldState) }()
 
 	// Start tmux attach command in read-only mode
 	cmd := exec.CommandContext(ctx, "tmux", "attach-session", "-r", "-t", s.Name)
